@@ -1,21 +1,30 @@
 'use strict';
-const { handleRequest } = require('./app');
 
-console.log('[SENTINEL] index.js loaded at', new Date().toISOString());
+const corsHeaders = {
+  'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Content-Type,Authorization',
+  'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
+};
 
-async function main(event) {
-  if (process.env.PURE_MODE === '1') {
+async function main_handler(event = {}) {
+  if (event.httpMethod === 'OPTIONS') {
     return {
       isBase64Encoded: false,
-      statusCode: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ok: true, note: 'pure index (set PURE_MODE=0 to exit)' })
+      statusCode: 204,
+      headers: corsHeaders,
+      body: ''
     };
   }
-  return await handleRequest(event);
+
+  return {
+    isBase64Encoded: false,
+    statusCode: 200,
+    headers: corsHeaders,
+    body: JSON.stringify({ ok: true })
+  };
 }
 
-// Publish every alias the deployment platforms may look for.
-exports.main = main;
-exports.handler = main;
-exports.main_handler = main;
+exports.main_handler = main_handler;
+exports.main = main_handler;
+exports.handler = main_handler;
