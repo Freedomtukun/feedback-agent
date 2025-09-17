@@ -1,5 +1,5 @@
 'use strict';
-const { http } = require('./services-http_client');
+const { http } = require('../services/http_client');
 
 const SUPPORTED_POSES = [
   'mountain_pose','warrior_1','warrior_2','tree_pose','downward_dog','triangle_pose'

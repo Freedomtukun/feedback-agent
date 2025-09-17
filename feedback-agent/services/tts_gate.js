@@ -1,5 +1,5 @@
 'use strict';
-const { http } = require('./services-http_client');
+const { http } = require('./http_client');
 
 exports.ttsMaybe = async (text) => {
   try {
